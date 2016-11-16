@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <title>Introduksjon til sikkerhet i webapplikasjoner</title>
     <link rel="icon" href="res/icon.ico">
+
+    <script language="JavaScript">
+        function showInput() {
+            document.getElementById('display').innerHTML =
+                    document.getElementById("input1").value;
+        }
+    </script>
 </head>
 <body>
-
+    <header>
+        <h1>Introduksjon til sikkerhet i webapplikasjoner</h1>
+    </header>
+    <div>Skriv inn en melding som skal vises:<br><input type="text" id="input1"><input type="submit" onclick="showInput();" value="Submit"><br/><br>
+    </div>
+    <label>Du skrev: </label>
+    <p><span id='display'></span></p>
 </body>
 </html>
