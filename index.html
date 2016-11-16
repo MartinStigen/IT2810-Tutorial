@@ -5,20 +5,52 @@
     <title>Introduksjon til sikkerhet i webapplikasjoner</title>
     <link rel="icon" href="res/icon.ico">
 
-    <script language="JavaScript">
-        function showInput() {
-            document.getElementById('display').innerHTML =
-                    document.getElementById("input1").value;
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) {
+                url = window.location.href;
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        function example1() {
+            $("#input1").val("<h1>Hva skjedde nå?!</h1>");
+        }
+        function example2() {
+            $("#input1").val("<img alt='A Sheep' src='https://www.online.no/Images/sau%20620x350_tcm48-55920.jpg'>");
+        }
+        function example3() {
+            document.cookie = "This is your cooke!";
+            $("#input1").val("\<script\>alert(document.cookie);\<\/script\>");
         }
     </script>
 </head>
 <body>
-    <header>
-        <h1>Introduksjon til sikkerhet i webapplikasjoner</h1>
-    </header>
-    <div>Skriv inn en melding som skal vises:<br><input type="text" id="input1"><input type="submit" onclick="showInput();" value="Submit"><br/><br>
-    </div>
-    <label>Du skrev: </label>
-    <p><span id='display'></span></p>
+    <h3>Prøv XSS her!</h3>
+    <form action="">
+        <div>Skriv inn noe som skal vises eller klikk på en av knappene for eksempler</div>
+        <div>
+            <input type="button" value="H1 Tags" onclick="example1()">
+            <input type="button" value="Image" onclick="example2()">
+            <input type="button" value="Alert Script" onclick="example3()">
+        </div>
+        <input type="text" name="svar1" id="input1">
+        <input type="submit" value="Kjør!"></br>
+    </form>
+    <label>Tekst escaped: </label>
+    <p><span id='output1'></span></p>
+    <label>Tekst ikke escaped: </label>
+    <p><span id='output2'></span></p>
+    <script>
+        var input1 = getParameterByName("svar1");
+        $('#output1').text(input1);
+        $('#output2').html(input1);
+    </script>
 </body>
 </html>
